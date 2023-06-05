@@ -4,16 +4,16 @@ import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../utils/splash_clips.dart';
+import '../widgets/clip_path.dart';
 
-class SplashView extends StatefulWidget {
-  const SplashView({Key? key}) : super(key: key);
+class MainView extends StatefulWidget {
+  const MainView({Key? key}) : super(key: key);
 
   @override
-  State<SplashView> createState() => _SplashViewState();
+  State<MainView> createState() => _MainViewState();
 }
 
-class _SplashViewState extends State<SplashView>
+class _MainViewState extends State<MainView>
     with SingleTickerProviderStateMixin {
   late AnimationController controller;
   late Animation<double> animation;
@@ -29,7 +29,7 @@ class _SplashViewState extends State<SplashView>
         print(barcodeScanRes);
       }
     } on PlatformException {
-      barcodeScanRes = 'Failed to get platform version.';
+      barcodeScanRes = 'Platform sürümü alınamadı.';
     }
 
     if (!mounted) return;
@@ -63,14 +63,7 @@ class _SplashViewState extends State<SplashView>
         backgroundColor: const Color(0xFFfdb623),
         body: Center(
             child: Column(children: [
-          ClipPath(
-            clipper: MyCustomClipperTop(),
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: 180,
-              decoration: const BoxDecoration(color: Color(0xFF333333)),
-            ),
-          ),
+          const UstDalga(),
           Flexible(
             fit: FlexFit.loose,
             child: Image.asset(
@@ -89,7 +82,7 @@ class _SplashViewState extends State<SplashView>
                         textStyle: Theme.of(context).textTheme.displayMedium),
                   ),
                   Text(
-                    "Gidin ve özelliklerimizin keyfini ücretsiz çıkarın ve bizimle hayatınızı kolaylaştırın.",
+                    "Pratikliğin keyfini ücretsiz çıkararkak hayatınızı kolaylaştırın.",
                     style: GoogleFonts.itim(
                         textStyle: Theme.of(context).textTheme.bodyLarge),
                     textAlign: TextAlign.center,
@@ -124,8 +117,7 @@ class _SplashViewState extends State<SplashView>
                                 onPressed: () {
                                   _launchUrl();
                                 },
-                                child: Text(
-                                    'Kaynağı Görüntüle : $_scanBarcode\n',
+                                child: Text('Git : $_scanBarcode\n',
                                     style: const TextStyle(fontSize: 30)),
                               ),
                               IconButton(
@@ -143,3 +135,5 @@ class _SplashViewState extends State<SplashView>
         ])));
   }
 }
+
+

@@ -1,4 +1,4 @@
-import 'package:barkod/pages/splash_view.dart';
+import 'package:barkod/pages/main_view.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -9,7 +9,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Material App',
-      home: SafeArea(child: SplashView()),
+      home: SafeArea(child: MainView()),
     );
   }
 }
