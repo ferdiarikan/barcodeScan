@@ -15,10 +15,12 @@ class MainView extends StatefulWidget {
 
 class _MainViewState extends State<MainView>
     with SingleTickerProviderStateMixin {
+  late bool barcodLoad;
   late AnimationController controller;
   late Animation<double> animation;
   String _scanBarcode = 'Unknown';
   late final Uri _url = Uri.parse(_scanBarcode);
+  final String barkorPictureAsset = "assets/ic_splash_barcode.png";
 
   Future<void> scanQR() async {
     String barcodeScanRes;
@@ -47,6 +49,7 @@ class _MainViewState extends State<MainView>
 
   @override
   void initState() {
+    barcodLoad = true;
     controller = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 2),
@@ -64,76 +67,77 @@ class _MainViewState extends State<MainView>
         body: Center(
             child: Column(children: [
           const UstDalga(),
-          Flexible(
-            fit: FlexFit.loose,
+          Expanded(
+            flex: 2,
             child: Image.asset(
-              "assets/ic_splash_barcode.png",
-              width: 200,
+              barkorPictureAsset,
+              fit: BoxFit.fill,
             ),
           ),
-          Flexible(
-              fit: FlexFit.tight,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    "Kod Tarama",
-                    style: GoogleFonts.itim(
-                        textStyle: Theme.of(context).textTheme.displayMedium),
-                  ),
-                  Text(
-                    "Pratikliğin keyfini ücretsiz çıkararkak hayatınızı kolaylaştırın.",
-                    style: GoogleFonts.itim(
-                        textStyle: Theme.of(context).textTheme.bodyLarge),
-                    textAlign: TextAlign.center,
-                  ),
-                  Container(
-                    child: (_scanBarcode == 'Unknown')
-                        ? InkWell(
-                            onTap: () {
-                              scanQR();
-                            },
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "Başla",
-                                    style: GoogleFonts.itim(
-                                        textStyle: Theme.of(context)
-                                            .textTheme
-                                            .displayMedium),
-                                  ),
-                                  AnimatedIcon(
-                                    icon: AnimatedIcons.ellipsis_search,
-                                    progress: animation,
-                                    size: 72.0,
-                                    semanticLabel: 'Show menu',
-                                    // color: Colors.amberAccent,
-                                  ),
-                                ]))
-                        : Column(
-                            children: [
-                              TextButton(
-                                onPressed: () {
-                                  _launchUrl();
-                                },
-                                child: Text('Git : $_scanBarcode\n',
-                                    style: const TextStyle(fontSize: 30)),
-                              ),
-                              IconButton(
-                                onPressed: () {
-                                  scanQR();
-                                },
-                                icon: (const Icon(Icons.refresh_outlined)),
-                                iconSize: 40,
-                              ),
-                            ],
-                          ),
-                  )
-                ],
-              )),
+          Expanded(
+            flex: 3,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  "Kod Tarama",
+                  style: GoogleFonts.itim(
+                      textStyle: Theme.of(context).textTheme.headlineLarge),
+                ),
+                Text(
+                  "Pratikliğin keyfini ücretsiz çıkararak hayatınızı kolaylaştırın.",
+                  style: GoogleFonts.itim(
+                      textStyle: Theme.of(context).textTheme.bodyLarge),
+                  textAlign: TextAlign.center,
+                ),
+                Container(
+                  child: (_scanBarcode == 'Unknown')
+                      ? InkWell(
+                          onTap: () {
+                            scanQR();
+                          },
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Start",
+                                  style: GoogleFonts.iceberg(
+                                      textStyle: Theme.of(context)
+                                          .textTheme
+                                          .displayMedium),
+                                ),
+                                AnimatedIcon(
+                                  icon: AnimatedIcons.ellipsis_search,
+                                  progress: animation,
+                                  size: 72,
+                                ),
+                              ]))
+                      : Column(
+                          children: [
+                            TextButton(
+                              onPressed: () {
+                                _launchUrl();
+                              },
+                              child: Text('Git : $_scanBarcode\n',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineLarge
+                                      ?.copyWith(fontWeight: FontWeight.bold),
+                              maxLines: 2),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                scanQR();
+                              },
+                              icon: (const Icon(Icons.refresh_outlined)),
+                              iconSize: 40,
+                            ),
+                          ],
+                        ),
+                )
+              ],
+            ),
+          ),
         ])));
   }
 }
-
-
